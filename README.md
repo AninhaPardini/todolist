@@ -11,7 +11,7 @@ Trabalhei os princípais conceitos para trabalhar com métodos e encaminhar rota
 
 Aprendi sobre como buscar informações dentro de uma classe com os métodos getters e setters.
 
-## Getters e Setters
+### Getters e Setters
 - Getters: Buscando informações de uma classe privada
   - getUsername
   ```java
@@ -29,7 +29,7 @@ Aprendi sobre como buscar informações dentro de uma classe com os métodos get
 
 Após isso a professora mostrou uma lib para poder otimizar essa criação de getters e setters da minha aplicação chamada [Lombok](https://projectlombok.org/) onde apenas com um decorator @Data em cima do meu modelo, já tenho tudo configurado de getters e setters automáticamente.
 
-## Banco de Dados 
+### Banco de Dados 
 Foi mostrado um ORM que é um projeto do própio springbot chamado [Spring Data JPA](https://spring.io/projects/spring-data-jpa) para podermos usar como camada de comunicação na nossa aplicação para o banco de dados. E o banco de dados que iremos utilizar nessa aplicação é o [H2 Database Engine](https://www.h2database.com/html/main.html) que é um banco de dados em memória, que não precisa de instalação alguma na aplicação, ele é apenas recomendado para a parte de development de um projeto, para prod é preciso um banco de dados em nuvem ou algo do tipo.
 
 Com isso, fui em resources/application.properties e inserir as váriaveis de ambiente e suas configurações e consegui logar no console dentro de [http://localhost:8080/h2-console] onde posso ter acesso visualmente ao banco de dados e suas tabelas.
@@ -37,9 +37,9 @@ Com isso, fui em resources/application.properties e inserir as váriaveis de amb
 Para poder fazer a conversão do objeto para dentro do banco de dados, é usado o Repository como interface extendendo do JpaRepository que é uma classe vinda do Spring Bot.
 Após isso configurei no UserController a interface UIUserRepository para ser o userRepository e armazenei o resultado do usuário salvo numa variável para retorna-lá quando o usuário fosse criado.
 
-## Validando Dados
+### Validando Dados
 
-### - Username
+ - Username
   Usando o decorator @Column com atributo unique true toda vez que for criado um usuário com os mesmos dados ele retorna o erro 500. Como o erro 500 não é uma boa conduta para informar algum erro foi ensinado a fazer a verificação dentro do IUserRepository criando o metodo para buscar se há o mesmo username no banco de dados(findByUsername).
   Depois disto usei o ResponseEntity
 
