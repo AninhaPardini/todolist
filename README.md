@@ -64,6 +64,16 @@ Então começamos a trabalhar as tarefas criando uma pasta separada em todolist 
 
 Na aula a professora ensinou um conceito de filtro para delimitarmos acessos e restrições para criação de uma task, esse modelo exite dentro do springBot chamado OncePerRequestFilter e como no FilterTaskAuth segue uma interface que quando importado aponta para criar dando CTRL + .
 
+### Validação dentro do filtro
+
+O processo de validação começou desde a utilização do servletPath onde captamos o caminho utilizados e se caso for coincidente com o que queremos damos continuidade as verificações, isso é importante pois se não ele irá buscar em todas rotas.
+Após isso tivemos que adaptar o que é recebido pelo auth, vindo de uma string com o nome basic e uma série de caracteres compactados que devemos descriptar para validação dos mesmos e depois atribuimos a um array chamado credentials e definimos as variantes como username index 0 e password index [1] assim como separamos.
+Com isso feito, partimos com o auxilio do Bcripty para decodificar o password e conseguir verificar a senha para finalmente permitir ou não o usuário de cadastrar sua task.
+
+### Depreciando o userId e injetando para mostrar dentro do auth
+
+
+
 ## Aula 4
 
 Coming soon.

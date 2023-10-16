@@ -6,52 +6,69 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import br.com.aninhapardini.todolist.user.IUserRepository;
 
 @Component // Toda classe que eu quero que o Spring gerencie, eu preciso colocar essa anotação
 public class FilterTaskAuth extends OncePerRequestFilter {
 
+  @Autowired
+  private IUserRepository userRepository;
+
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    // Pegar a autenticação (usuário e senha)
-    var authorization = request.getHeader("Authorization");
+
+    var servletPath = request.getServletPath();
+    if (servletPath.equals("/tasks/")) {
+      var authorization = request.getHeader("Authorization");
+
+      var authEncoded = authorization.substring("Basic".length())
+          .trim(); /*
+                    * substring é para pegar a // partir do 6º caractere // (Basic) e trim é para //
+                    * tirar os espaços em // branco
+                    */
+
+      byte[] authDecode =
+          Base64.getDecoder().decode(authEncoded); /*
+                                                    * decode é para decodificar o que // foi
+                                                    * codificado (no caso, o usuário e senha
+                                                    */
+
+      var authString = new String(authDecode); /*
+                                                * transformar o que foi decodificado em String
+                                                */
+
+      String[] credentials =
+          authString.split(":"); /*
+                                  * split é para separar o usuário e senha (no caso, o usuário é o
+                                  * primeiro item e a senha é o segundo item)
+                                  */
+      String username = credentials[0];
+      String password = credentials[1];
+
+      // Validar usuário
+      var user = this.userRepository.findByUsername(username);
+      if (user == null) {
+        response.sendError(401);
+
+      } else {
+        // Validar senha
+        var passwordVerify = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+        if (passwordVerify.verified) {
+          filterChain.doFilter(request, response);
+        } else {
+          response.sendError(401);
+        }
+        // Seguimos o fluxo
 
 
-    var authEncoded = authorization.substring("Basic".length())
-        .trim(); /*
-                  * substring é para pegar a // partir do 6º caractere // (Basic) e trim é para //
-                  * tirar os espaços em // branco
-                  */
-
-    byte[] authDecode =
-        Base64.getDecoder().decode(authEncoded); /*
-                                                  * decode é para decodificar o que // foi
-                                                  * codificado (no caso, o usuário e senha
-                                                  */
-
-    var authString = new String(authDecode);
-
-    String[] credentials =
-        authString.split(":"); /*
-                                * split é para separar o usuário e senha (no caso, o usuário é o
-                                * primeiro item e a senha é o segundo item)
-                                */
-    String username = credentials[0];
-    String password = credentials[1];
-
-    System.out.println("Authorization:");
-    System.out.println(username);
-    System.out.println(password);
-    // Validar usuário
-
-    // Validar senha
-
-    // Seguimos o fluxo
-
-    filterChain.doFilter(request, response);
-
+      }
+    } else {
+      filterChain.doFilter(request, response);
+    }
   }
 }
