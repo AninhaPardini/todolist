@@ -53,11 +53,16 @@ Então começamos a trabalhar as tarefas criando uma pasta separada em todolist 
 - ID
 - Usuário (ID_USUARIO)
 - Descrição
-- Título
+- Título (limite de 50 caracteres)
 - Status (ideia minha)
 - Data de Início
 - Data de término
+- Data de última atualização
 - Prioridade
+
+### Filtro
+
+Na aula a professora ensinou um conceito de filtro para delimitarmos acessos e restrições para criação de uma task, esse modelo exite dentro do springBot chamado OncePerRequestFilter e como no FilterTaskAuth segue uma interface que quando importado aponta para criar dando CTRL + .
 
 ## Aula 4
 

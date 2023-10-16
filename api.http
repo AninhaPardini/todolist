@@ -8,3 +8,20 @@ content-type: application/json
     "name": "Heleninha",
     "password": "123245"
 }
+
+
+###
+POST http://localhost:8080/tasks/ HTTP/1.1
+content-type: application/json
+Authorization: heleninha 123245
+
+{
+    "title": "Tarefa 1",
+    "description": "Tarefa 1 para concluir dentro do prazo",
+    "priority": "ALTA",
+    "status": "EM ANDAMENTO",
+    "startAt": "2023-10-15T00:00:00.000Z",
+    "endAt": "2023-10-16T23:59:00.000Z",
+    "updatedAt": "2023-15-15T21:00:00.000Z",
+    "userId": "c8d796af-53e5-403c-9662-b2f6552336ce"
+}
