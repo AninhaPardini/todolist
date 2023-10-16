@@ -70,14 +70,74 @@ O processo de validação começou desde a utilização do servletPath onde capt
 Após isso tivemos que adaptar o que é recebido pelo auth, vindo de uma string com o nome basic e uma série de caracteres compactados que devemos descriptar para validação dos mesmos e depois atribuimos a um array chamado credentials e definimos as variantes como username index 0 e password index [1] assim como separamos.
 Com isso feito, partimos com o auxilio do Bcripty para decodificar o password e conseguir verificar a senha para finalmente permitir ou não o usuário de cadastrar sua task.
 
-### Depreciando o userId e injetando para mostrar dentro do auth
-
-
-
 ## Aula 4
 
-Coming soon.
+### Depreciando o userId e injetando para mostrar dentro do auth
+
+Nesta fase dentro do TaskController e Filter configuramos um atributo ao auth com o nome de userId e recuperamos ele dentro do controller atribuindo-o como o get.userId e assim podendo o userId ser passado dentro do auth e não no body da requisição.
+
+### Validação das horas
+  
+  - StartAt
+    Com a validação de horas usamos a data atual dentro de uma variavel para checar se o startAt é depois desta.
+  - EndAt
+    Fazemos o uso do pipe e utilizamos a mesma lógica
+  - Sentido entre as datas
+    Também validamos se a data de inicio é menor que a de término para ter sentido a criação da task.
+
+### Listando todas as tarefas
+
+Para listar todas as tarefas apenas captamos o id do usuário dentro do auth e retornamos as tasks linkadas ao mesmo utilizando do método findByUserId.
+
+### Fazendo o update das tarefas
+
+Com o put foi usado o parâmetro do @PathVariable que pega o id da task e linka a rota apresentada. Além disso tivemos que fazer algumas validações se a tarefa existe, depois captamos o id do usuário para permitir ou não que ele edite aquela tarefa, baseado que só o usuário dono da tarefa pode altera-lá.
+
+Com isso a professora apresentou uma forma de maximizar nosso trabalho evitando o uso intenso de ifs a todo canto, criando o utils pudemos usar o Beans e o Util do própio java e spring bot para checar os campos nulos da requisição e copiar os que não foram alterados, tornando facíl a edição pelo lado do usuário.
 
 ## Aula 5
 
-Coming soon.
+### Tratando erros
+
+A professora mostrou uma forma mais indicada que é configurando um handler que irá pegar o throw exception error e irá enviar para o body do usuário de forma mais amigável com um texto explicando o motivo do erro.
+
+### Dependência Devtools 
+
+O [devtools](https://www.baeldung.com/spring-boot-devtools) é um conjunto de ferramentas para facilitar o desenvolvimento dentro do spring bot/java. Ela instruiu a tirar a versão e deixar a que foi colocada no início do projeto também e colocar o optional como true.
+
+✨ mvn spring-boot:run para dar start mais fácil na aplicação
+
+## Regras de negócio
+
+O gerenciador de tarefas deve conter um método para cadastrar usuários onde nele:
+- Não se pode ter dois usuários com o mesmo nick
+- A senha deve ser criptografada
+
+Também deve ter tarefas onde:
+- O título não pode conter mais de 50 caracteres
+- A tarefa deve ser atrelada e somente editada pelo usuário que a criou
+- A tarefa deve conter os seguintes campos:
+- - Id
+  - Título
+  - Descrição
+  - Status de conclusão
+    - A FAZER
+    - EM ANDAMENTO
+    - FEITO
+  - Data de Início
+  - Data de término
+  - Data da útlima atualização
+  - Prioridade
+- A tarefa deve poder ser:
+  - Criada
+  - Editada
+  - Deletada - Feito fora do curso
+  - Encontrada (todas)
+  - Encontrada indivídualmente - Feito fora do curso
+  - Encontrada por status
+  - Encontrada por prioridade
+
+
+## Considerações finais
+
+Adorei conhecer Java e com certeza esse foi um dos cursos que mais empenhei tanto no estudo quanto em armazenar meu aprendizado e me dedicar para fazer além quanto no código em si. Adorei a oportunidade que a Rocketseat deu de podermos aprender sobre Java e ter um gostinho de como tudo funciona, é algo que vou ser eternamente grata. #FogueteNãoTemRé 🚀
